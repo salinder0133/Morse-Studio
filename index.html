@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ultimate Morse Studio</title>
+    <title>Morse Secret Studio | salinder0133</title>
     <style>
         :root {
             --primary-color: #00ff41; 
@@ -20,146 +20,200 @@
             align-items: center;
             min-height: 100vh;
             margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
         }
 
         .container {
             background: var(--card-bg);
-            padding: 2rem;
+            padding: 2.5rem;
             border-radius: 20px;
             box-shadow: 0 10px 40px rgba(0,0,0,0.7);
             text-align: center;
-            width: 90%;
+            width: 100%;
             max-width: 450px;
             border: 1px solid #30363d;
+            position: relative;
         }
 
-        /* --- Visual Flashlight Element --- */
-        #signalLamp {
-            width: 50px;
-            height: 50px;
-            background: #333;
+        .help-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: transparent;
+            border: 1px solid var(--primary-color);
+            color: var(--primary-color);
+            width: 44px;
+            height: 44px;
             border-radius: 50%;
-            margin: 0 auto 20px;
-            border: 4px solid #111;
-            transition: 0.1s;
-        }
-        .lamp-on {
-            background: var(--primary-color) !important;
-            box-shadow: 0 0 30px var(--primary-color);
-        }
-
-        h2 { color: var(--primary-color); letter-spacing: 3px; margin: 0 0 20px; }
-
-        textarea {
-            width: 100%;
-            height: 80px;
-            padding: 12px;
-            background: #0d1117;
-            border: 1px solid #30363d;
-            border-radius: 8px;
-            color: var(--primary-color);
-            font-size: 16px;
-            resize: none;
-            outline: none;
-            box-sizing: border-box;
-        }
-
-        #result {
-            margin: 20px 0;
-            padding: 20px;
-            background: #000;
-            color: var(--primary-color);
-            border-radius: 10px;
-            min-height: 60px;
-            font-size: 24px;
-            letter-spacing: 4px;
-            border: 1px dashed #444;
-            word-break: break-all;
-        }
-
-        .button-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-        }
-
-        button {
-            padding: 12px;
-            border: none;
-            border-radius: 6px;
             cursor: pointer;
             font-weight: bold;
-            background: #30363d;
-            color: white;
-            text-transform: uppercase;
-            font-size: 11px;
-            transition: 0.2s;
+            font-size: 18px;
+            transition: 0.3s;
         }
-
-        button:hover { background: var(--primary-color); color: black; }
-
-        .btn-full { grid-column: span 2; }
-
-        #notification {
-            visibility: hidden;
-            position: fixed;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
+        .help-btn:hover {
             background: var(--primary-color);
             color: black;
-            padding: 10px 25px;
-            border-radius: 50px;
-            font-weight: bold;
-            transition: 0.4s;
+            box-shadow: 0 0 10px var(--primary-color);
         }
-        #notification.show { visibility: visible; bottom: 40px; }
+
+        #signalLamp { 
+            width: 50px; height: 50px; 
+            background: #333; 
+            border-radius: 50%; 
+            margin: 0 auto 20px; 
+            border: 4px solid #111; 
+            transition: 0.1s; 
+        }
+        .lamp-on { 
+            background: var(--primary-color) !important; 
+            box-shadow: 0 0 30px var(--primary-color); 
+        }
+
+        h2 { color: var(--primary-color); letter-spacing: 3px; margin: 0 0 20px; text-transform: uppercase; }
+
+        textarea { 
+            width: 100%; height: 100px; 
+            padding: 15px; 
+            background: #0d1117; 
+            border: 1px solid #30363d; 
+            border-radius: 12px; 
+            color: var(--primary-color); 
+            font-size: 16px; 
+            resize: none; 
+            outline: none; 
+            box-sizing: border-box; 
+        }
+
+        .stats { display: flex; justify-content: space-between; font-size: 11px; color: #8b949e; margin-top: 8px; }
+
+        #result { 
+            margin: 20px 0; padding: 20px; 
+            background: #000; 
+            color: var(--primary-color); 
+            border-radius: 10px; 
+            min-height: 60px; 
+            font-size: 22px; 
+            letter-spacing: 4px; 
+            border: 1px dashed #444; 
+            word-break: break-all;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .button-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        button { 
+            padding: 14px; 
+            border: none; 
+            border-radius: 8px; 
+            cursor: pointer; 
+            font-weight: bold; 
+            background: #30363d; 
+            color: white; 
+            text-transform: uppercase; 
+            font-size: 11px; 
+            transition: 0.2s; 
+        }
+        button:hover { background: var(--primary-color); color: black; }
+        .btn-full { grid-column: span 2; background: #21262d; border: 1px solid #30363d; }
+
+        #helpModal { 
+            display: none; 
+            position: fixed; 
+            z-index: 1000; 
+            left: 0; top: 0; 
+            width: 100%; height: 100%; 
+            background: rgba(0,0,0,0.9); 
+            backdrop-filter: blur(8px);
+            align-items: center;
+            justify-content: center;
+        }
+        .modal-content { 
+            background: var(--card-bg); 
+            width: 90%; max-width: 400px; 
+            border: 1px solid var(--primary-color); 
+            border-radius: 20px; 
+            padding: 25px;
+            position: relative;
+        }
+        .close-btn { 
+            position: absolute; top: 15px; right: 20px; 
+            color: var(--primary-color); 
+            font-size: 30px; font-weight: bold; 
+            cursor: pointer; line-height: 1;
+        }
+
+        #notification { 
+            visibility: hidden; position: fixed; 
+            bottom: 30px; left: 50%; transform: translateX(-50%); 
+            background: var(--primary-color); color: black; 
+            padding: 12px 30px; border-radius: 50px; 
+            font-weight: bold; z-index: 2000; font-size: 14px;
+            transition: 0.3s ease;
+        }
+        #notification.show { visibility: visible; bottom: 50px; }
     </style>
 </head>
 <body>
 
 <div class="container">
+    <button class="help-btn" onclick="toggleHelp()">?</button>
     <div id="signalLamp"></div>
-    <h2>MORSE STUDIO</h2>
+    <h2>Morse Studio</h2>
     
-    <label style="display:block; text-align:left; font-size:12px; color:#8b949e; margin-bottom:5px;">ENTER YOUR NAME OR TEXT:</label>
-    <textarea id="textInput" placeholder="Type English or Morse code..." oninput="autoHandle()"></textarea>
+    <textarea id="textInput" placeholder="Enter name or message..." oninput="autoHandle()"></textarea>
+    <div class="stats">
+        <span id="charCount">Characters: 0</span>
+        <span>Auto-Detect Mode</span>
+    </div>
     
     <div id="result">...</div>
 
     <div class="button-grid">
         <button onclick="playMorse()">🔊 Play Signal</button>
-        <button onclick="copyCode()">📋 Copy Result</button>
-        <button class="btn-full" onclick="resetAll()">🔄 Reset Studio</button>
+        <button onclick="copyCode()">📋 Copy Secret</button>
+        <button class="btn-full" onclick="resetAll()">🔄 Reset Everything</button>
     </div>
 </div>
 
-<div id="notification">Action Success!</div>
+<div id="helpModal">
+    <div class="modal-content">
+        <span class="close-btn" onclick="toggleHelp()">&times;</span>
+        <h3 style="color:var(--primary-color); margin-top:0;">Secret Love Studio 💖</h3>
+        <p style="font-size:15px; line-height:1.7; color:#e0e0e0; margin-top: 20px;">
+            This tool is designed to keep your <b>Partner's Name</b> or private feelings hidden from prying eyes.
+            <br><br>
+            Convert any name into <b>Morse Code</b> and use it for your:
+            <br><br>
+            ✨ Instagram Bio <br>
+            ✨ WhatsApp Status <br>
+            ✨ Private Notes
+            <br><br>
+            <i>"Some names are too special to be read by everyone; they deserve to be coded."</i> 🤫
+        </p>
+        
+        <button onclick="toggleHelp()" style="margin-top:20px; width:100%; background: var(--primary-color); color: black; font-weight: bold;">START CODING! 🚀</button>
+    </div>
+</div>
+
+<div id="notification">Action Completed!</div>
 
 <script>
-    const morseDict = {
-        'A': '.-', 'B': '-...', 'C': '-.-.', 'D': '-..', 'E': '.', 'F': '..-.',
-        'G': '--.', 'H': '....', 'I': '..', 'J': '.---', 'K': '-.-', 'L': '.-..',
-        'M': '--', 'N': '-.', 'O': '---', 'P': '.--.', 'Q': '--.-', 'R': '.-.',
-        'S': '...', 'T': '-', 'U': '..-', 'V': '...-', 'W': '.--', 'X': '-..-',
-        'Y': '-.--', 'Z': '--..', '1': '.----', '2': '..---', '3': '...--', 
-        '4': '....-', '5': '.....', '6': '-....', '7': '--...', '8': '---..', 
-        '9': '----.', '0': '-----', ' ': '/'
-    };
-
-    // Reverse dictionary for Morse to Text
+    const morseDict = { 'A': '.-', 'B': '-...', 'C': '-.-.', 'D': '-..', 'E': '.', 'F': '..-.', 'G': '--.', 'H': '....', 'I': '..', 'J': '.---', 'K': '-.-', 'L': '.-..', 'M': '--', 'N': '-.', 'O': '---', 'P': '.--.', 'Q': '--.-', 'R': '.-.', 'S': '...', 'T': '-', 'U': '..-', 'V': '...-', 'W': '.--', 'X': '-..-', 'Y': '-.--', 'Z': '--..', '1': '.----', '2': '..---', '3': '...--', '4': '....-', '5': '.....', '6': '-....', '7': '--...', '8': '---..', '9': '----.', '0': '-----', ' ': '/' };
     const textDict = Object.fromEntries(Object.entries(morseDict).map(([k, v]) => [v, k]));
 
     let audioCtx = null;
 
+    function toggleHelp() {
+        const m = document.getElementById('helpModal');
+        m.style.display = (m.style.display === 'flex') ? 'none' : 'flex';
+    }
+
     function autoHandle() {
         const val = document.getElementById('textInput').value.trim();
-        // Detect if input is Morse (. or -) or Text
-        if (val.match(/^[.\- /]+$/)) {
-            decodeMorse(val);
-        } else {
-            encodeText(val.toUpperCase());
-        }
+        document.getElementById('charCount').innerText = `Characters: ${val.length}`;
+        if (val.match(/^[.\- /]+$/)) { decodeMorse(val); } else { encodeText(val.toUpperCase()); }
     }
 
     function encodeText(text) {
@@ -174,59 +228,50 @@
 
     function showToast(msg) {
         const t = document.getElementById('notification');
-        t.innerText = msg;
-        t.classList.add('show');
-        setTimeout(() => t.classList.remove('show'), 2500);
-    }
-
-    function toggleLamp(on) {
-        const lamp = document.getElementById('signalLamp');
-        on ? lamp.classList.add('lamp-on') : lamp.classList.remove('lamp-on');
+        t.innerText = msg; t.classList.add('show');
+        setTimeout(() => t.classList.remove('show'), 2000);
     }
 
     function playBeep(duration) {
-        if (!audioCtx) audioCtx = new AudioContext();
+        if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
         const osc = audioCtx.createOscillator();
         const gain = audioCtx.createGain();
-        osc.connect(gain);
-        gain.connect(audioCtx.destination);
+        osc.connect(gain); gain.connect(audioCtx.destination);
         osc.frequency.value = 600;
         gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
         osc.start();
-        toggleLamp(true);
-        setTimeout(() => { osc.stop(); toggleLamp(false); }, duration);
+        document.getElementById('signalLamp').classList.add('lamp-on');
+        if (navigator.vibrate) navigator.vibrate(duration);
+        setTimeout(() => { 
+            osc.stop(); 
+            document.getElementById('signalLamp').classList.remove('lamp-on');
+        }, duration);
     }
 
     async function playMorse() {
         const code = document.getElementById('result').innerText;
-        if (code === "..." || !code.match(/[.\-]/)) {
-            showToast("❌ Enter text to play!");
-            return;
-        }
+        if (code === "..." || !code.match(/[.\-]/)) { showToast("⚠️ Nothing to play!"); return; }
         if (audioCtx?.state === 'suspended') await audioCtx.resume();
-
+        showToast("🔊 Playing Signal...");
         for (const char of code) {
-            if (char === '.') {
-                playBeep(100);
-                await new Promise(r => setTimeout(r, 200));
-            } else if (char === '-') {
-                playBeep(300);
-                await new Promise(r => setTimeout(r, 450));
-            } else {
-                await new Promise(r => setTimeout(r, 300));
-            }
+            if (char === '.') { playBeep(100); await new Promise(r => setTimeout(r, 200)); } 
+            else if (char === '-') { playBeep(300); await new Promise(r => setTimeout(r, 450)); } 
+            else { await new Promise(r => setTimeout(r, 300)); }
         }
     }
 
     function copyCode() {
-        navigator.clipboard.writeText(document.getElementById('result').innerText);
-        showToast("📋 Copied!");
+        const code = document.getElementById('result').innerText;
+        if(code === "...") return;
+        navigator.clipboard.writeText(code);
+        showToast("📋 Copied to Clipboard!");
     }
 
     function resetAll() {
         document.getElementById('textInput').value = "";
         document.getElementById('result').innerText = "...";
-        showToast("🔄 Reset Complete");
+        document.getElementById('charCount').innerText = "Characters: 0";
+        showToast("🔄 Reset Successful");
     }
 </script>
 </body>
